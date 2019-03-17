@@ -1,0 +1,24 @@
+    while(i<=k && a[i]<=pivot){
+        i++;
+        while(k>0 && a[k]>=pivot){
+        k--;
+        }
+        if(i>=k){
+            break;
+            //  int swap = left;
+            // left = right;
+            // right = swap;
+            //right--;
+            // left++;
+        } else {
+            int swap = a[i];
+            a[i] = a[k];
+            a[k] = swap;
+        }
+    }
+    int T = a[i];
+    a[i] = a[right];
+    a[right] = T;
+    return i;
+}
+
