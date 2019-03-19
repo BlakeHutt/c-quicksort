@@ -1,0 +1,11 @@
+int ls[logN], int rs[logN] -> these are the 'stacks'
+
+left=ls[sp], right = rs[sp--];
+
+pivot = part(a, left, right)
+
+ls[++sp] = left, rs[sp]= pivot-1
+ls[++sp] = pivot+1, rs[sp] = right;
+if right -left >1 continue, else is already sorted 
+    - (assuming right is smallerthan left)
+do while stackPointer is > 0
