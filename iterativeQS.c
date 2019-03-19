@@ -5,21 +5,9 @@
 
 #define SIZE 10
 
-typedef struct{
-    int *stack;
-    int top;
-    int maxSize;
-}stackI;
-
 
 void quickSort(int *array, int leftBound, int rightBound);
 int partition(int *a, int left, int right);
-void stackCreate(stackI *stack, int maxSize);
-void stackDestroy(stackI *stack);
-void stackPush(stackI *stack, int item);
-void stackPop(stackI *stack);
-
-
 
 int main(){
     int size = 0;
@@ -59,16 +47,23 @@ void quickSort(int *array, int leftBound, int rightBound){
       *         -choose one element as pivot
       *         - partition array into smaller and larger
       */
-    stackI stack; 
-    stackCreate(&stack, (int)(log10(sizeof(&array)/sizeof(&array[0]))+1));
-    if(leftBound < rightBound){
-               
-        int part = partition(array, leftBound, rightBound);
-    /*    quickSort(array, leftBound, part-1); //smaller part
-        quickSort(array, part+1, rightBound); //larger part
-   
-   */ }   
-}
+    int stackP = 0;
+    int r[], l[];
+    l[++stackP] = leftBound, r[stackP] = rightBound;
+    
+    while(stackP>0){
+        if(rightBound-leftBound>1){
+            int p = partition(array, leftBound, rightBound);
+
+           // if(rightBound-l)<(leftBound-r){
+                leftBound = l[stackP], rightBound = r[stackP--];
+                l[++stackP] = leftBound; r[stackP] = p -1;
+                l[++stackP] = p + 1; r[stackP] = rightBound;
+            } else {
+
+            }
+        }
+    }
 
 //Look at implementing pre-increment instead of post increment for faster/efficient code
 
@@ -97,9 +92,4 @@ int partition(int *a, int left, int right){
         pivot = k;
         }
     return pivot; // The new pivot point
-}
-
-void stackCreate(stackI *stack, int maxSize){
-
-    
 }

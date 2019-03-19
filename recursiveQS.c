@@ -2,7 +2,10 @@
 #include <time.h>
 #include <stdio.h>
 #include <ctype.h>
-
+/* 
+ * Recursive QuickSort algorithm based on the psuedo code found on wikipedia of Hoare's partition Scheme.
+ *
+ */
 void quickSort(int *array, int leftBound, int rightBound);
 int partition(int *a, int left, int right);
 
