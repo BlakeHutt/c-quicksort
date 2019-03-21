@@ -34,7 +34,7 @@ int main(){
 
 void quickSort(int *array, int leftBound, int rightBound){ 
      /*
-      * Create temp array to hold 1+logN pairs of L+R bounds
+      * Create temp array/s to hold 1+logN pairs of L+R bounds
       *     - Push larger first
       *  
       *  Define bounds of array creating a subarray and push onto stack
@@ -48,26 +48,53 @@ void quickSort(int *array, int leftBound, int rightBound){
       *         - partition array into smaller and larger
       */
     int stackP = 0;
-    int r[], l[];
-    l[++stackP] = leftBound, r[stackP] = rightBound;
+    int logN = log10(sizeof(&array)/sizeof(&array[0]));
+    int rIndex[logN+1];
+    int lIndex[logN+1];
+    lIndex[++stackP] = leftBound, rIndex[stackP] = rightBound;
     
     while(stackP>0){
         if(rightBound-leftBound>1){
             int p = partition(array, leftBound, rightBound);
 
-           // if(rightBound-l)<(leftBound-r){
-                leftBound = l[stackP], rightBound = r[stackP--];
-                l[++stackP] = leftBound; r[stackP] = p -1;
-                l[++stackP] = p + 1; r[stackP] = rightBound;
+            if((rightBound-lIndex[stackP])<(leftBound-rIndex[stackP])){
+                leftBound = lIndex[stackP], rightBound = rIndex[stackP--];
+                lIndex[++stackP] = leftBound; rIndex[stackP] = p - 1;
+                lIndex[++stackP] = p + 1; rIndex[stackP] = rightBound;
             } else {
+
 
             }
         }
     }
-
+}
 //Look at implementing pre-increment instead of post increment for faster/efficient code
 
 int partition(int *a, int left, int right){
+    int pivotE, i, k;
+    pivotE = a[left];
+    i = left-1, k = right+1;
+
+    while(1){
+        do{
+         ++i;
+     } while(a[i]<pivotE);
+    do{
+            --k;
+        }while(a[k]>pivotE);
+        if(i>=k){
+            return k; //Return k as new pivot
+        }
+    int t = a[i];
+    a[i] = a[k];
+    a[k] = t;   //swap i and k
+    } 
+}
+
+
+
+
+/*int partition(int *a, int left, int right){
     int pivot, i, k;
     pivot = left;
     i = left;
@@ -92,4 +119,4 @@ int partition(int *a, int left, int right){
         pivot = k;
         }
     return pivot; // The new pivot point
-}
+}*/
