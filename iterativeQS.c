@@ -61,10 +61,14 @@ void quickSort(int *array, int leftBound, int rightBound){
                 leftBound = lIndex[stackP], rightBound = rIndex[stackP--];
                 lIndex[++stackP] = leftBound; rIndex[stackP] = p - 1;
                 lIndex[++stackP] = p + 1; rIndex[stackP] = rightBound;
-            } else {
-
-
+            } else { 
+                rightBound = rIndex[stackP], leftBound = lIndex[stackP--];
+                rIndex[++stackP] = rightBound, lIndex[stackP] = p - 1;
+                rIndex[++stackP] = p + 1, lIndex[stackP] = leftBound;
             }
+        
+        } else { 
+            break;
         }
     }
 }

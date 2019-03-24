@@ -9,3 +9,20 @@ ls[++sp] = pivot+1, rs[sp] = right;
 if right -left >1 continue, else is already sorted 
     - (assuming right is smallerthan left)
 do while stackPointer is > 0
+
+
+
+
+TESTING::
+
+c = 10 mill
+k = log(c)/log(2) -> get ceiling
+int array[c];
+int left[k], right[k]
+
+clock_start
+for(R =1, N=C; R *=10, N/=10)
+    for(i =0; i < R; i++)
+        quicksort
+
+clockend
