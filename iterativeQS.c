@@ -47,31 +47,30 @@ void quickSort(int *array, int leftBound, int rightBound){
       *         -choose one element as pivot
       *         - partition array into smaller and larger
       */
-    int stackP = 0;
-    int logN = log10(sizeof(&array)/sizeof(&array[0]));
-    int rIndex[logN+1];
-    int lIndex[logN+1];
-    lIndex[++stackP] = leftBound, rIndex[stackP] = rightBound;
-    
-    while(stackP>0){
-        if(rightBound-leftBound>1){
-            int p = partition(array, leftBound, rightBound);
-
-            if((rightBound-lIndex[stackP])<(leftBound-rIndex[stackP])){
-                leftBound = lIndex[stackP], rightBound = rIndex[stackP--];
-                lIndex[++stackP] = leftBound; rIndex[stackP] = p - 1;
-                lIndex[++stackP] = p + 1; rIndex[stackP] = rightBound;
-            } else { 
-                rightBound = rIndex[stackP], leftBound = lIndex[stackP--];
-                rIndex[++stackP] = rightBound, lIndex[stackP] = p - 1;
-                rIndex[++stackP] = p + 1, lIndex[stackP] = leftBound;
-            }
+    int p, stackP = 0;
+    if(rightBound > leftBound){
+        //int stackP = 0;
+        //int logN = log10(sizeof(array)/sizeof(&array[0]));
+        int rStack[100], lStack[100];
+        lStack[++stackP] = leftBound, rStack[stackP] = rightBound; //Store leftBound and rightBound into L/R stack respectively(number not element)
         
-        } else { 
-            break;
+        while(stackP>0){
+            leftBound = lStack[stackP], rightBound = rStack[stackP--];
+            if(rightBound-leftBound>1){
+                p = partition(array, leftBound, rightBound);  
+                if((rightBound-(p+1))<(leftBound-(p))){
+                    lStack[++stackP] = leftBound, rStack[stackP] = p - 1;
+                    lStack[++stackP] = p + 1, rStack[stackP] = rightBound;
+                 } else { 
+                    rStack[++stackP] = rightBound, lStack[stackP] = p - 1;
+                    rStack[++stackP] = p + 1, lStack[stackP] = leftBound;
+                 }               
+            } else
+                stackP--; 
         }
     }
 }
+
 //Look at implementing pre-increment instead of post increment for faster/efficient code
 
 int partition(int *a, int left, int right){
