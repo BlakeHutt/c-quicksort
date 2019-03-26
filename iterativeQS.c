@@ -3,9 +3,6 @@
 #include <stdio.h>
 #include <math.h>
 
-#define SIZE 10
-
-
 void quickSort(int *array, int leftBound, int rightBound);
 int partition(int *a, int left, int right);
 
@@ -47,31 +44,36 @@ void quickSort(int *array, int leftBound, int rightBound){
       *         -choose one element as pivot
       *         - partition array into smaller and larger
       */
-    int p, stackP = 0;
+    
     if(rightBound > leftBound){
-        //int stackP = 0;
+        int stackP = 0;
         //int logN = log10(sizeof(array)/sizeof(&array[0]));
-        int rStack[100], lStack[100];
-        lStack[++stackP] = leftBound, rStack[stackP] = rightBound; //Store leftBound and rightBound into L/R stack respectively(number not element)
+        int rBStack[10], lBStack[10];
+        lBStack[++stackP] = leftBound, rBStack[stackP] = rightBound; //Store leftBound and rightBound into L/R stack respectively(number not element) and pre-increments stackP to 1 to start loop 
         
         while(stackP>0){
-            leftBound = lStack[stackP], rightBound = rStack[stackP--];
+            leftBound = lBStack[stackP], rightBound = rBStack[stackP--]; //pop stack
             if(rightBound-leftBound>1){
-                p = partition(array, leftBound, rightBound);  
-                if((rightBound-(p+1))<(leftBound-(p))){
-                    lStack[++stackP] = leftBound, rStack[stackP] = p - 1;
-                    lStack[++stackP] = p + 1, rStack[stackP] = rightBound;
-                 } else { 
-                    rStack[++stackP] = rightBound, lStack[stackP] = p - 1;
-                    rStack[++stackP] = p + 1, lStack[stackP] = leftBound;
+                int p = partition(array, leftBound, rightBound);
+                int lP = p+1, rP = p-1;
+
+                if((rightBound-lP)<(leftBound-rP)){// rightside is larger (Is right side larger than left side?)
+                    lBStack[++stackP] = lP, rBStack[stackP] = rightBound; // push large
+                    lBStack[++stackP]=  leftBound, rBStack[stackP] = rP; // push small
+                 } else {//rightside is smaller
+                    lBStack[++stackP] = leftBound, rBStack[stackP] = rP; // push large
+                    lBStack[++stackP] = lP, rBStack[stackP] = rightBound; // push small
                  }               
-            } else
-                stackP--; 
-        }
+            } else {
+                --stackP;
+            }
+         }
     }
 }
 
-//Look at implementing pre-increment instead of post increment for faster/efficient code
+/*Look at implementing pre-increment instead of post increment for faster/efficient code
+ *  Based off of Hoares partition scheme
+ */
 
 int partition(int *a, int left, int right){
     int pivotE, i, k;
@@ -90,36 +92,6 @@ int partition(int *a, int left, int right){
         }
     int t = a[i];
     a[i] = a[k];
-    a[k] = t;   //swap i and k
+    a[k] = t;
     } 
 }
-
-
-
-
-/*int partition(int *a, int left, int right){
-    int pivot, i, k;
-    pivot = left;
-    i = left;
-    k = right;
-
-    while(i<=k && a[i]<=a[pivot]){
-        while(i<=k && a[k]>=a[pivot]){
-            k--;        
-        }
-        if(i<k){
-            int swapV = a[i];
-            a[i] = a[k];
-            a[k] = swapV;
-            i++, k--;
-        }
-       i++;
-    } 
-    if(a[k]<a[pivot]){
-        int swapPiv = a[k];
-        a[k] = a[pivot];
-        a[pivot] = swapPiv;
-        pivot = k;
-        }
-    return pivot; // The new pivot point
-}*/
