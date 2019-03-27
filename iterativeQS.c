@@ -3,8 +3,12 @@
 #include <stdio.h>
 #include <math.h>
 
+#define swp(x,y) {x^=y;y^=x;x^=y;}
+
 void quickSort(int *array, int leftBound, int rightBound);
 int partition(int *a, int left, int right);
+int part(int *a, int left, int right);
+int part2(int *a, int left, int right);
 
 int main(){
     int size = 0;
@@ -48,13 +52,13 @@ void quickSort(int *array, int leftBound, int rightBound){
     if(rightBound > leftBound){
         int stackP = 0;
         //int logN = log10(sizeof(array)/sizeof(&array[0]));
-        int rBStack[10], lBStack[10];
-        lBStack[++stackP] = leftBound, rBStack[stackP] = rightBound; //Store leftBound and rightBound into L/R stack respectively(number not element) and pre-increments stackP to 1 to start loop 
+        int rBStack[50], lBStack[50];
+        lBStack[++stackP] = leftBound, rBStack[stackP] = rightBound; //Push leftBound and rightBound into L/R stack respectively(number not element) and pre-increments stackP to 1 to start loop 
         
         while(stackP>0){
-            leftBound = lBStack[stackP], rightBound = rBStack[stackP--]; //pop stack
-            if(rightBound-leftBound>1){
-                int p = partition(array, leftBound, rightBound);
+            leftBound = lBStack[stackP], rightBound = rBStack[stackP--]; //pop one from each stack
+            if(rightBound>leftBound){ // if true isn't sorted, if false is sorted
+                int p = part(array, leftBound, rightBound);
                 int lP = p+1, rP = p-1;
 
                 if((rightBound-lP)<(leftBound-rP)){// rightside is larger (Is right side larger than left side?)
@@ -64,20 +68,21 @@ void quickSort(int *array, int leftBound, int rightBound){
                     lBStack[++stackP] = leftBound, rBStack[stackP] = rP; // push large
                     lBStack[++stackP] = lP, rBStack[stackP] = rightBound; // push small
                  }               
-            } else {
-                --stackP;
+            } else{ //Is already sorted
+               --stackP;
             }
          }
     }
 }
 
-/*Look at implementing pre-increment instead of post increment for faster/efficient code
+/*
+ * Look at implementing pre-increment instead of post increment for faster/efficient code
  *  Based off of Hoares partition scheme
  */
 
 int partition(int *a, int left, int right){
     int pivotE, i, k;
-    pivotE = a[left];
+    pivotE = a[(left+right)/2];
     i = left-1, k = right+1;
 
     while(1){
@@ -94,4 +99,60 @@ int partition(int *a, int left, int right){
     a[i] = a[k];
     a[k] = t;
     } 
+}
+
+/*
+ *Partition code based on David Powers psuedo code
+ *
+ */
+
+int part(int *a, int left, int right){
+    int i, j, pivot = left;
+    i = left+1, j = right;
+    int count = 0, swap = 0;
+    while(i<=j){
+        count++;
+        while(i <= j && a[i] <= a[pivot]){
+            ++i;
+        } 
+        while(i <= j && a[j] >= a[pivot]){
+            --j;
+        }
+        if (i<j){
+            int t = a[i];
+            a[i] = a[j];
+            a[j] = t;
+            printf("swaped to i: %d, j: %d\n", i, j);
+            i++, j--, swap++;
+        }
+    }
+    printf("%d i, %d, j, %d piv, %d count, %d swaps\n", i, j, pivot, count, swap);
+    printf("%d aPiv, %d aJ\n", a[pivot], a[j]);
+  if (a[j] < a[pivot]){
+        int t = a[j];
+        a[j] = a[pivot];
+        a[pivot] = t;
+        pivot = j;
+    }  
+return pivot;
+}
+
+
+int part2(int *a, int left, int right){
+
+    int piv = a[right];
+    int k = left -1;
+
+    for(int j = left; j <= right-1; j++){
+        if(a[j] <= piv){
+            k++;
+            int t = a[j];
+            a[j] = a[k];
+            a[k] = t;
+        }
+    }
+    int t = a[k+1];
+    a[k+1] = a[right];
+    a[right] = t;
+    return  k+1;
 }

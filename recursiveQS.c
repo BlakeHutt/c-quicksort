@@ -2,6 +2,8 @@
 #include <time.h>
 #include <stdio.h>
 #include <ctype.h>
+
+#define SWP(x, y) (x^=y y^=x x^=y)
 /* 
  * Recursive QuickSort algorithm based on the psuedo code found on wikipedia of Hoare's partition Scheme.
  *
@@ -48,7 +50,7 @@ void quickSort(int *array, int leftBound, int rightBound){
 
 int partition(int *a, int left, int right){
     int pivotE, i, k;
-    pivotE = a[left];
+    pivotE = a[(left+right)/2];
     i = left-1, k = right+1;
 
     while(1){
@@ -61,6 +63,7 @@ int partition(int *a, int left, int right){
         if(i>=k){
             return k; //Return k as new pivot
         }
+        //SWP(a[i], a[k]);
     int t = a[i];
     a[i] = a[k];
     a[k] = t;   //swap i and k
