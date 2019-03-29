@@ -133,7 +133,8 @@ int part(int *a, int left, int right){
         a[j] = a[pivot];
         a[pivot] = t;
         pivot = j;
-    }  
+    } 
+  printf("piv swapped: %d, %d\n", a[pivot], pivot);
 return pivot;
 }
 
