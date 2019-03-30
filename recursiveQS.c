@@ -3,13 +3,12 @@
 #include <stdio.h>
 #include <ctype.h>
 
-#define SWP(x, y) (x^=y y^=x x^=y)
 /* 
  * Recursive QuickSort algorithm based on the psuedo code found on wikipedia of Hoare's partition Scheme.
  *
  */
-void quickSort(int *array, int leftBound, int rightBound);
-int partition(int *a, int left, int right);
+void hquickSort(int *array, int leftBound, int rightBound);
+int hPartition(int *a, int left, int right);
 
 int main(int argc, char* argv[]){
     srand(time(NULL));
@@ -25,7 +24,7 @@ int main(int argc, char* argv[]){
     int length = sizeof(hedgehogs)/sizeof(hedgehogs[0]);
     
     clock_t start = clock();
-    quickSort(hedgehogs, 0, length-1);
+    hquickSort(hedgehogs, 0, length-1);
     clock_t end = clock();
 
     timeE=((double)end-start)/CLOCKS_PER_SEC;
@@ -37,18 +36,18 @@ int main(int argc, char* argv[]){
     return 0;
 }
 
-void quickSort(int *array, int leftBound, int rightBound){
+void hoarequickSort(int *array, int leftBound, int rightBound){
     if(leftBound < rightBound){
 
-        int pivot = partition(array, leftBound, rightBound);
-        quickSort(array, leftBound, pivot); //smaller part
-        quickSort(array, pivot+1, rightBound); //larger part
+        int pivot = hPartition(array, leftBound, rightBound);
+        hquickSort(array, leftBound, pivot); //smaller part
+        hquickSort(array, pivot+1, rightBound); //larger part
    }   
 }
 
 //Look at implementing pre-increment instead of post increment for faster/efficient code
 
-int partition(int *a, int left, int right){
+int hPartition(int *a, int left, int right){
     int pivotE, i, k;
     pivotE = a[(left+right)/2];
     i = left-1, k = right+1;
@@ -63,7 +62,6 @@ int partition(int *a, int left, int right){
         if(i>=k){
             return k; //Return k as new pivot
         }
-        //SWP(a[i], a[k]);
     int t = a[i];
     a[i] = a[k];
     a[k] = t;   //swap i and k
