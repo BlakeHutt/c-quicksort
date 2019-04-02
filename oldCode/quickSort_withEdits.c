@@ -20,7 +20,12 @@ bool correctness(int *array, int length, int *dupes);
 int main(int argc, char* argv[]){
     srand(time(NULL));
     double timeE = 0.0;
-    int C = 650000; //10 Million element size will cause segment fault, over PC stack size. Fails @ 7M
+/*    int size = 0;
+    printf("enter how many: ");
+    scanf("%d", &size);
+    int hedgehogs[size];
+    */
+    int C = 500000; //10 Million element size will cause segment fault, over PC stack size.
     int N, R;
    // int k = ceil(log(C)/log(2));
     
@@ -35,6 +40,7 @@ int main(int argc, char* argv[]){
         int iterative[N];
         int hoa[N];
         int dupes = 0;
+        //clock_t start = clock();
         for(int i = 0; i < R; i++){
              for(int s = 0; s<N; s++){
              hedgehogs[s] = rand();
@@ -61,10 +67,28 @@ int main(int argc, char* argv[]){
                 return 1;
              } 
         }
+       // clock_t end = clock();
+       // timeE=((double)end-start)/CLOCKS_PER_SEC;
         printf("\ntotal time taken recursive: %f\nnumber of runs: %d\n", totalTimeQ, R);
         printf("\ntotal time taken iterative: %f\nnumber of runs: %d\n", totalTimeI, R);
         printf("\ntime taken hoa: %f\nnumber of runs: %d\n", totalTimeH, R);
     }
+/*    for(int s = 0; s < size; s++){
+        hedgehogs[s] = rand();
+    }
+    int length = sizeof(hedgehogs)/sizeof(hedgehogs[0]);
+   */ 
+    //clock_t start = clock();
+    //quickSort(hedgehogs, 0, length-1);
+    //clock_t end = clock();
+
+    //timeE=((double)end-start)/CLOCKS_PER_SEC;
+    //int dupes = 0;
+   /* if(correctness(hedgehogs, size, &dupes) == false){
+        printf("Is not correctly sorted\n");
+        return 1;
+    }*/  
+    //printf("time elapsed: %f\nnumer of dupes: %d", timeE, dupes);
     return 0;
 }
 
