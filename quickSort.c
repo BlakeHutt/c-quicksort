@@ -20,12 +20,14 @@ bool correctness(int *array, int length, int *dupes);
 int main(int argc, char* argv[]){
     srand(time(NULL));
     double timeE = 0.0;
-    int C = 650000; //10 Million element size will cause segment fault, over PC stack size. Fails @ 7M
+    int C = 680000; //10 Million element size will cause segment fault, over PC stack size. Fails @ 7M
     int N, R;
    // int k = ceil(log(C)/log(2));
     
     for(R = 1, N = C; N >= 10;R *= 10, N /= 5){
+        
         double totalTimeQ = 0.0;
+
         double totalTimeI = 0.0;
         double totalTimeH = 0.0;
         printf("-------------------------\n");
@@ -56,14 +58,15 @@ int main(int argc, char* argv[]){
             end = clock();
             timeE = ((double)end-start)/CLOCKS_PER_SEC;
             totalTimeH += timeE;
+            
             if(correctness(hedgehogs, N, &dupes) == false || correctness(iterative, N, &dupes) == false){
                 printf("Is not correctly sorted on%d\n", N);
                 return 1;
              } 
         }
-        printf("\ntotal time taken recursive: %f\nnumber of runs: %d\n", totalTimeQ, R);
-        printf("\ntotal time taken iterative: %f\nnumber of runs: %d\n", totalTimeI, R);
-        printf("\ntime taken hoa: %f\nnumber of runs: %d\n", totalTimeH, R);
+        printf("\ntotal time taken recursive: %f\n", totalTimeQ);
+        printf("\ntotal time taken iterative: %f\n", totalTimeI);
+        printf("\ntime taken hoa: %f\n", totalTimeH);
     }
     return 0;
 }
@@ -141,7 +144,7 @@ void hquickSort(int *array, int leftBound, int rightBound){
 
 int partition(int *a, int left, int right){
     int p, i, k;
-    p = (left), i = ++left, k = right;
+    p = left, i = ++left, k = right;
 
     while(i<=k){
         while(i<=k && a[i] <= a[p]){
@@ -193,7 +196,7 @@ bool correctness(int *array, int size, int *dupes){
             return false;
         }
         if(array[i] == array[i+1]){
-            dupes+=1; 
+            dupes = dupes++; 
         }
         return true;
     }
