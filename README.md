@@ -11,6 +11,7 @@ Iterative quicksort(iterativeQS) is based on the pseudo code given by David Powe
 
 * The file quickSort is a culmination of all three algorithms in one file and runs with the default value of 650,000 sized arrays.
     * Because of the soft default stack of 8MB in most computers per process, having 3 arrays for each sort limits the max size of 650,000, resulting in a 7.8MB stack. 
+    * This is assuming the C byte value of ints is 4 bytes and not 2 bytes.
     * If you were to increase the stack size, via ulimit -s in a unix and/or linux environment, you can increase the stack size of processes ie 10240kB for a 10MB stack
        * The above stack size of 10240kB would allow the three arrays to reach a max size of 800,000 for all three arrays.
 
