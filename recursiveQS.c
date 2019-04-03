@@ -36,7 +36,7 @@ int main(int argc, char* argv[]){
     return 0;
 }
 
-void hoarequickSort(int *array, int leftBound, int rightBound){
+void hquickSort(int *array, int leftBound, int rightBound){
     if(leftBound < rightBound){
 
         int pivot = hPartition(array, leftBound, rightBound);

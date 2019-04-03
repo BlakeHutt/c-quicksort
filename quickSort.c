@@ -20,23 +20,23 @@ bool correctness(int *array, int length, int *dupes);
 int main(int argc, char* argv[]){
     srand(time(NULL));
     double timeE = 0.0;
-    int C = 680000; //10 Million element size will cause segment fault, over PC stack size. Fails @ 7M
+    int C = 1000000; //10 Million element size will cause segment fault, over PC stack size. Stack size is default to 8MB, at 1M elements of ints is 4MB
     int N, R;
    // int k = ceil(log(C)/log(2));
     
     for(R = 1, N = C; N >= 10;R *= 10, N /= 5){
         
         double totalTimeQ = 0.0;
-
         double totalTimeI = 0.0;
         double totalTimeH = 0.0;
         printf("-------------------------\n");
         printf("Amount of runs: %d\nNumber of elements: %d\n", R, N);
         printf("-------------------------");
-        int hedgehogs[N];
+        int hedgehogs[N]; //2.6MB at 650,000 -> 7.8MB for all 3
         int iterative[N];
         int hoa[N];
         int dupes = 0;
+
         for(int i = 0; i < R; i++){
              for(int s = 0; s<N; s++){
              hedgehogs[s] = rand();
@@ -68,13 +68,14 @@ int main(int argc, char* argv[]){
         printf("\ntotal time taken iterative: %f\n", totalTimeI);
         printf("\ntime taken hoa: %f\n", totalTimeH);
     }
+    
     return 0;
 }
 
 
 
 /*
- * Quicksort funciton based on more so on David Power's and with Hoares pseudo code.
+ * recursive quicksort function based on more so on David Power's and with Hoares pseudo code.
  */
 
 void quickSort(int *array, int leftBound, int rightBound){
@@ -196,7 +197,7 @@ bool correctness(int *array, int size, int *dupes){
             return false;
         }
         if(array[i] == array[i+1]){
-            dupes = dupes++; 
+            dupes = dupes+1; 
         }
         return true;
     }

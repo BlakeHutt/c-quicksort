@@ -2,7 +2,7 @@
 #include <time.h>
 #include <stdio.h>
 #include <math.h>
-
+#include <time.h>
 
 void iterativequickSort(int *array, int leftBound, int rightBound);
 int parti(int *a, int left, int right);
@@ -18,13 +18,15 @@ int main(){
     } 
     int length = sizeof(unSort)/sizeof(unSort[0]);
     //int log = log10(length);
-    
+    clock_t start = clock();
     iterativequickSort(unSort, 0, length-1);
-    
+    clock_t end = clock();
+    double timeE = ((double)end-start)/CLOCKS_PER_SEC;
     printf("now sorted\n");
     for(int i = 0; i<size;i++){
         printf("A[%d]: %d\n",i, unSort[i]);
-    }    
+    }
+    printf("%f\n", timeE);
     return 0;
 }
 
