@@ -8,9 +8,9 @@
  * QuickSort algorithms.
  */
 
-void quickSort(int *array, int leftBound, int rightBound);
-void iterativequickSort(int *array, int leftBound, int rightBound);
-void hquickSort(int *array, int leftBound, int rightBound);
+int quickSort(int *array, int leftBound, int rightBound);
+int iterativequickSort(int *array, int leftBound, int rightBound);
+int hquickSort(int *array, int leftBound, int rightBound);
 int partition(int *a, int left, int right);
 int hPartition(int *a, int left, int right);
 
@@ -61,7 +61,10 @@ int main(int argc, char* argv[]){
             if(correctness(hedgehogs, N, &dupes) == false){
                 printf("Is not correctly sorted on%d\n", N);
                 return 1;
-             } 
+            } else if (correctness(iterative, N, &dupes) == false){
+                printf("it failed");
+                return 1;
+            } 
         }
         printf("\ntotal time taken recursive: %f\n", totalTimeQ);
         printf("\ntotal time taken iterative: %f\n", totalTimeI);
@@ -77,22 +80,23 @@ int main(int argc, char* argv[]){
  * recursive quicksort function based on more so on David Power's and with Hoares pseudo code.
  */
 
-void quickSort(int *array, int leftBound, int rightBound){
+int quickSort(int *array, int leftBound, int rightBound){
    
     if(leftBound < rightBound){
 
         int pivot = partition(array, leftBound, rightBound);
         if(leftBound < pivot){
-            quickSort(array, leftBound, pivot-1);
+            quickSort(array, leftBound, pivot);
             quickSort(array, pivot+1, rightBound);
         } else {
             quickSort(array, pivot+1, rightBound);
-            quickSort(array, leftBound, pivot-1);
+            quickSort(array, leftBound, pivot);
         }   
     }
+    return *array;
 }
 
-void iterativequickSort(int *array, int leftBound, int rightBound){ 
+int iterativequickSort(int *array, int leftBound, int rightBound){ 
 
     if(rightBound > leftBound){
         int stackP = 0;
@@ -124,15 +128,17 @@ void iterativequickSort(int *array, int leftBound, int rightBound){
             }       
         }
     }
+    return *array;
 }
 
-void hquickSort(int *array, int leftBound, int rightBound){
+int hquickSort(int *array, int leftBound, int rightBound){
     if(leftBound < rightBound){
 
         int pivot = hPartition(array, leftBound, rightBound);
         hquickSort(array, leftBound, pivot); //smaller part
         hquickSort(array, pivot+1, rightBound); //larger part
    }
+    return *array;
 }
 
 
@@ -199,5 +205,5 @@ bool correctness(int *array, int size, int *dupes){
         }
         //return true;
     }
-//return true;
+return true;
 }
