@@ -22,9 +22,8 @@ int main(int argc, char* argv[]){
     double timeE = 0.0;
     int C = 1000000; //10 Million element size will cause segment fault, over PC stack size. Stack size is default to 8MB, at 1M elements of ints is 4MB
     int N, R;
-   // int k = ceil(log(C)/log(2));
     
-    for(R = 1, N = C; N >= 10;R *= 10, N /= 5){
+    for(R = 1, N = C; N >= 10;R *= 10, N /= 10){
         
         double totalTimeQ = 0.0;
         double totalTimeI = 0.0;
@@ -59,7 +58,7 @@ int main(int argc, char* argv[]){
             timeE = ((double)end-start)/CLOCKS_PER_SEC;
             totalTimeH += timeE;
             
-            if(correctness(hedgehogs, N, &dupes) == false || correctness(iterative, N, &dupes) == false){
+            if(correctness(hedgehogs, N, &dupes) == false){
                 printf("Is not correctly sorted on%d\n", N);
                 return 1;
              } 
@@ -97,8 +96,7 @@ void iterativequickSort(int *array, int leftBound, int rightBound){
 
     if(rightBound > leftBound){
         int stackP = 0;
-        int aSize = sizeof(array)/sizeof(&array[0]);
-        int logSize = ceil(((1+log(aSize))/log(2)));
+        int logSize = ceil(((1+log(rightBound))/log(2)));
         int rBStack[logSize], lBStack[logSize];
         lBStack[++stackP] = leftBound, rBStack[stackP] = rightBound; //Push leftBound and rightBound into L/R stack respectively(number not element) and pre-increments stackP to 1 to start loop 
         
@@ -199,7 +197,7 @@ bool correctness(int *array, int size, int *dupes){
         if(array[i] == array[i+1]){
             dupes = dupes+1; 
         }
-        return true;
+        //return true;
     }
-
+//return true;
 }
