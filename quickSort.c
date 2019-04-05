@@ -14,7 +14,7 @@ int hquickSort(int *array, int leftBound, int rightBound);
 int partition(int *a, int left, int right);
 int hPartition(int *a, int left, int right);
 
-bool correctness(int *array, int length, int *dupes);
+bool correctness(int *array, int length);
 
 
 int main(int argc, char* argv[]){
@@ -34,7 +34,7 @@ int main(int argc, char* argv[]){
         int hedgehogs[N]; //2.6MB at 650,000 -> 7.8MB for all 3
         int iterative[N];
         int hoa[N];
-        int dupes = 0;
+    
 
         for(int i = 0; i < R; i++){
              for(int s = 0; s<N; s++){
@@ -58,13 +58,16 @@ int main(int argc, char* argv[]){
             timeE = ((double)end-start)/CLOCKS_PER_SEC;
             totalTimeH += timeE;
             
-            if(correctness(hedgehogs, N, &dupes) == false){
-                printf("Is not correctly sorted on%d\n", N);
+            if(correctness(hedgehogs, N) == false){
+                printf("Is not correctly sorted during recursive\n");
                 return 1;
-            } else if (correctness(iterative, N, &dupes) == false){
-                printf("it failed");
+            } else if (correctness(iterative, N) == false){
+                printf("Is not correctly sorted during iterative\n");
                 return 1;
-            } 
+            } else if(correctness(hoa, N) == false){
+                printf("Is not correctly sorted during Hoare's\n");        
+                return 1;
+             }
         }
         printf("\ntotal time taken recursive: %f\n", totalTimeQ);
         printf("\ntotal time taken iterative: %f\n", totalTimeI);
@@ -169,7 +172,7 @@ int partition(int *a, int left, int right){
         int t = a[k];
         a[k] = a[p];
         a[p] = t;
-        p = k;
+        return k;
     }
     return p;
 }
@@ -195,16 +198,12 @@ int hPartition(int *a, int left, int right){
     }
 }
 
-bool correctness(int *array, int size, int *dupes){
+bool correctness(int *array, int size){
     
     for(int i = 0; i < size-1; i++){
         if(array[i] > array[i+1]){
             return false;
         }
-        if(array[i] == array[i+1]){
-            dupes = dupes+1; 
-        }
-        //return true;
     }
 return true;
 }

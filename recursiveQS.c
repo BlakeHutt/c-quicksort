@@ -29,12 +29,18 @@ int main(int argc, char* argv[]){
 
     timeE=((double)end-start)/CLOCKS_PER_SEC;
 
-    for(int p =0; p<size;p++){
-        printf("A[%d]: %d\n", p, hedgehogs[p]);
+    for(int i =0; i<size;i++){
+      //  printf("A[%d]: %d\n", p, hedgehogs[p]);
+      if(hedgehogs[i] > hedgehogs[i+1]&& i+1<size){
+             printf("failed\n");
+             printf("%d: %d with %d: %d\n", i, hedgehogs[i], i+1, hedgehogs[i+1]);
+             return 1;
+        }
     }
     printf("time elapsed: %f\n", timeE);
     return 0;
 }
+
 
 void hquickSort(int *array, int leftBound, int rightBound){
     if(leftBound < rightBound){

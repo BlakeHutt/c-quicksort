@@ -4,7 +4,7 @@
 #include <math.h>
 #include <time.h>
 
-void iterativequickSort(int *array, int leftBound, int rightBound);
+int iterativequickSort(int *array, int leftBound, int rightBound);
 int parti(int *a, int left, int right);
 
 int main(){
@@ -25,21 +25,20 @@ int main(){
     clock_t end = clock();
     
     double timeE = ((double)end-start)/CLOCKS_PER_SEC;
-   // printf("now sorted\n");
     for(int i = 0; i<size;i++){
- //       printf("A[%d]: %d\n",i, unSort[i]);
         if(unSort[i] > unSort[i+1]&& i+1<size){
-               return 1;
-    }
+            printf("failed");   
+            printf("%d: %d with %d: %d\n", i, unSort[i], i+1, unSort[i+1]);
+            return 1;
+        }
     }
     printf("%f\n", timeE);
     return 0;
-
 }
 
 
 
-void iterativequickSort(int *array, int leftBound, int rightBound){ 
+int iterativequickSort(int *array, int leftBound, int rightBound){ 
 
     if(rightBound > leftBound){
         int stackP = 0;
@@ -71,6 +70,7 @@ void iterativequickSort(int *array, int leftBound, int rightBound){
             }       
         }
     }
+    return *array;
 }
 
 /*
@@ -80,7 +80,8 @@ void iterativequickSort(int *array, int leftBound, int rightBound){
 
 int parti(int *a, int left, int right){
     int i, j, pivot = left;
-    i = left+1, j = right;
+    i = left++, j = right;
+    
     while(i<=j){
         while(i <= j && a[i] <= a[pivot]){
            ++i;
