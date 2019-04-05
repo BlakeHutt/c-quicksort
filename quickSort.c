@@ -162,6 +162,7 @@ int partition(int *a, int left, int right){
             int t = a[i];
             a[i] = a[k];
             a[k] = t;
+            --k, ++i;
         }
     }
     if (a[k] < a[p]){
