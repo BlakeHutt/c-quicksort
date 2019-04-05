@@ -20,7 +20,7 @@ bool correctness(int *array, int length, int *dupes);
 int main(int argc, char* argv[]){
     srand(time(NULL));
     double timeE = 0.0;
-    int C = 1000000; //10 Million element size will cause segment fault, over PC stack size. Stack size is default to 8MB, at 1M elements of ints is 4MB
+    int C = 10000000; //10 Million element size will cause segment fault, over PC stack size. Stack size is default to 8MB, at 1M elements of ints is 4MB
     int N, R;
     
     for(R = 1, N = C; N >= 10;R *= 10, N /= 10){
@@ -86,11 +86,11 @@ int quickSort(int *array, int leftBound, int rightBound){
 
         int pivot = partition(array, leftBound, rightBound);
         if(leftBound < pivot){
-            quickSort(array, leftBound, pivot);
+            quickSort(array, leftBound, pivot-1);
             quickSort(array, pivot+1, rightBound);
         } else {
             quickSort(array, pivot+1, rightBound);
-            quickSort(array, leftBound, pivot);
+            quickSort(array, leftBound, pivot-1);
         }   
     }
     return *array;
@@ -158,14 +158,14 @@ int partition(int *a, int left, int right){
         while(i<=k && a[k] >= a[p]){
             --k;
         }
-        if (i < k){
+        if (i <= k){
             int t = a[i];
             a[i] = a[k];
             a[k] = t;
             --k, ++i;
         }
     }
-    if (a[k] < a[p]){
+    if (a[k] <= a[p]){
         int t = a[k];
         a[k] = a[p];
         a[p] = t;

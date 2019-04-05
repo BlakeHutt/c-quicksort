@@ -88,14 +88,14 @@ int parti(int *a, int left, int right){
         while(i <= j && a[j] >= a[pivot]){
             --j;
         }
-        if (i<j){
+        if (i<=j){
             int t = a[i];
             a[i] = a[j];
             a[j] = t;
             ++i, --j;
         }
     }
-    if(a[j] < a[pivot]){
+    if(a[j] <= a[pivot]){
     int t = a[j];
     a[j] = a[pivot];
     a[pivot] = t;
